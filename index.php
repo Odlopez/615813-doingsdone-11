@@ -24,7 +24,8 @@ $show_complete_tasks = rand(0, 1);
             </a>
 
             <div class="main-header__side">
-                <a class="main-header__side-item button button--plus open-modal" href="pages/form-task.html">Добавить задачу</a>
+                <a class="main-header__side-item button button--plus open-modal"
+                   href="pages/form-task.html">Добавить задачу</a>
 
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__data">
@@ -71,7 +72,8 @@ $show_complete_tasks = rand(0, 1);
                     </nav>
 
                     <label class="checkbox">
-                        <input class="checkbox__input visually-hidden show_completed" type="checkbox" <?php if($show_complete_tasks === 1): ?>checked<?php endif ?>>
+                        <input class="checkbox__input visually-hidden show_completed"
+                               type="checkbox" <?= ($show_complete_tasks === 1) ? 'checked' : '' ?>>
                         <span class="checkbox__text">Показывать выполненные</span>
                     </label>
                 </div>
@@ -91,7 +93,7 @@ $show_complete_tasks = rand(0, 1);
 
                         <td class="task__date"></td>
                     </tr>
-                    <?php if($show_complete_tasks === 1): ?>
+                    <?php if ($show_complete_tasks === 1) : ?>
                         <tr class="tasks__item task task--completed">
                             <td class="task__select">
                                 <label class="checkbox task__checkbox">
@@ -102,7 +104,7 @@ $show_complete_tasks = rand(0, 1);
                             <td class="task__date">10.10.2019</td>
                             <td class="task__controls"></td>
                         </tr>
-                    <? endif ?>
+                    <?php endif; ?>
                 </table>
             </main>
         </div>
