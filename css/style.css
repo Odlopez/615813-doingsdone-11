@@ -672,22 +672,16 @@ a:focus {
 .social__link {
   width: 27px;
   height: 27px;
+  color: #879296;
 }
 
-.social__link:hover path {
-  fill: #7e55f2;
+.social__link svg {
+  fill: currentColor;
+  stroke: currentColor;
 }
 
-.social__link:active path {
-  fill: #502bbb;
-}
-
-.social__link:hover circle {
-  stroke: #7e55f2;
-}
-
-.social__link:active circle {
-  stroke: #502bbb;
+.social__link:hover {
+  color: #7e55f2;
 }
 
 .form {
