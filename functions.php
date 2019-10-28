@@ -11,37 +11,43 @@ function getAllTasks()
             'task' => 'Собеседование в IT компании',
             'date' => '01.12.2019',
             'category' => 'Работа',
-            'isDone' =>  false
+            'isDone' =>  false,
+            'id' => 0
         ],
         [
             'task' => 'Выполнить тестовое задание',
             'date' => '25.12.2019',
             'category' => 'Работа',
-            'isDone' =>  false
+            'isDone' =>  false,
+            'id' => 1
         ],
         [
             'task' => 'Сделать задание первого раздела',
             'date' => '21.12.2019',
             'category' => 'Учеба',
-            'isDone' =>  true
+            'isDone' =>  true,
+            'id' => 2
         ],
         [
             'task' => 'Встреча с другом',
             'date' => '22.12.2019',
             'category' => 'Входящие',
-            'isDone' =>  false
+            'isDone' =>  false,
+            'id' => 3
         ],
         [
             'task' => 'Купить корм для кота',
             'date' => null,
             'category' => 'Домашние дела',
-            'isDone' =>  false
+            'isDone' =>  false,
+            'id' => 4
         ],
         [
             'task' => 'Заказать пиццу',
             'date' => null,
             'category' => 'Домашние дела',
-            'isDone' =>  false
+            'isDone' =>  false,
+            'id' => 5
         ]
     ];
 }

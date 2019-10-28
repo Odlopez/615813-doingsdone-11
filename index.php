@@ -84,17 +84,17 @@ $tasks = getAllTasks();
                 </div>
 
                 <table class="tasks">
-                    <?php foreach (array_keys($tasks) as $index => $taskItem) : ?>
-                        <?php if ($show_complete_tasks === 0 && $tasks[$taskItem]['isDone']) {
+                    <?php foreach ($tasks as $taskItem) : ?>
+                        <?php if ($show_complete_tasks === 0 && $taskItem['isDone']) {
                             continue;
                         } ?>
-                        <tr class="tasks__item task <?= $tasks[$taskItem]['isDone'] ? 'task--completed' : '' ?>">
+                        <tr class="tasks__item task <?= $taskItem['isDone'] ? 'task--completed' : '' ?>">
                             <td class="task__select">
                                 <label class="checkbox task__checkbox">
                                     <input class="checkbox__input visually-hidden task__checkbox"
-                                       type="checkbox" value="<?= $index; ?>"
-                                       <?= $tasks[$taskItem]['isDone'] ? 'checked' : '' ?>>
-                                    <span class="checkbox__text"><?= $tasks[$taskItem]['task'] ?></span>
+                                       type="checkbox" value="<?= $taskItem['id']; ?>"
+                                       <?= $taskItem['isDone'] ? 'checked' : '' ?>>
+                                    <span class="checkbox__text"><?= $taskItem['task'] ?></span>
                                 </label>
                             </td>
 
@@ -102,7 +102,7 @@ $tasks = getAllTasks();
                                 <a class="download-link" href="#">Home.psd</a>
                             </td>
 
-                            <td class="task__date"><?= $tasks[$taskItem]['date'] ?></td>
+                            <td class="task__date"><?= $taskItem['date'] ?></td>
                             <td class="task__controls"></td>
                         </tr>
                     <?php endforeach; ?>
