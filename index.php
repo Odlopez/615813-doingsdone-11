@@ -1,5 +1,5 @@
 <?php
-require_once('functions.php');
+require_once 'functions.php';
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 $projects = getAllProjects();
@@ -46,9 +46,9 @@ $tasks = getAllTasks();
 
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
-                        <?php foreach ($projects as $val) : ?>
+                        <?php foreach ($projects as $projectName) : ?>
                             <li class="main-navigation__list-item">
-                                <a class="main-navigation__list-item-link" href="#"><?= $val ?></a>
+                                <a class="main-navigation__list-item-link" href="#"><?= $projectName ?></a>
                                 <span class="main-navigation__list-item-count">0</span>
                             </li>
                         <?php endforeach; ?>
@@ -84,17 +84,17 @@ $tasks = getAllTasks();
                 </div>
 
                 <table class="tasks">
-                    <?php foreach (array_keys($tasks) as $index => $item) : ?>
-                        <?php if ($show_complete_tasks === 0 && $tasks[$item]['isDone']) {
+                    <?php foreach (array_keys($tasks) as $index => $taskItem) : ?>
+                        <?php if ($show_complete_tasks === 0 && $tasks[$taskItem]['isDone']) {
                             continue;
                         } ?>
-                        <tr class="tasks__item task <?= $tasks[$item]['isDone'] ? 'task--completed' : '' ?>">
+                        <tr class="tasks__item task <?= $tasks[$taskItem]['isDone'] ? 'task--completed' : '' ?>">
                             <td class="task__select">
                                 <label class="checkbox task__checkbox">
                                     <input class="checkbox__input visually-hidden task__checkbox"
                                        type="checkbox" value="<?= $index; ?>"
-                                       <?= $tasks[$item]['isDone'] ? 'checked' : '' ?>>
-                                    <span class="checkbox__text"><?= $tasks[$item]['task'] ?></span>
+                                       <?= $tasks[$taskItem]['isDone'] ? 'checked' : '' ?>>
+                                    <span class="checkbox__text"><?= $tasks[$taskItem]['task'] ?></span>
                                 </label>
                             </td>
 
@@ -102,7 +102,7 @@ $tasks = getAllTasks();
                                 <a class="download-link" href="#">Home.psd</a>
                             </td>
 
-                            <td class="task__date"><?= $tasks[$item]['date'] ?></td>
+                            <td class="task__date"><?= $tasks[$taskItem]['date'] ?></td>
                             <td class="task__controls"></td>
                         </tr>
                     <?php endforeach; ?>
