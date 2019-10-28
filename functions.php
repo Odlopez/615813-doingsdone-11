@@ -51,3 +51,15 @@ function getAllTasks()
         ]
     ];
 }
+
+function counts_projects($projects_list, $name)
+{
+    $categories_array = array_map(function ($item) {
+        return $item['category'];
+    }, $projects_list);
+
+    return array_reduce($categories_array, function ($carry, $item) use ($name) {
+        $carry += $item === $name ? 1 : 0;
+        return $carry;
+    }, 0);
+}

@@ -49,7 +49,9 @@ $tasks = getAllTasks();
                         <?php foreach ($projects as $projectName) : ?>
                             <li class="main-navigation__list-item">
                                 <a class="main-navigation__list-item-link" href="#"><?= $projectName ?></a>
-                                <span class="main-navigation__list-item-count">0</span>
+                                <span class="main-navigation__list-item-count">
+                                    <?= counts_projects($tasks, $projectName) ?>
+                                </span>
                             </li>
                         <?php endforeach; ?>
                     </ul>
