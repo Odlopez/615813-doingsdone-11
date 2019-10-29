@@ -52,14 +52,18 @@ function getAllTasks()
     ];
 }
 
-function counts_projects($projects_list, $name)
+/**
+ * Возвращает количество совпадающих по назанию категорий в переданном массиве проектов
+ *
+ * @param array $projects_list массив с проектами
+ * @param string $name имя категории
+ * @return int количество сопадающих категорий
+ */
+function counts_category_in_projects(array $projects_list, string $name) : int
 {
-    $categories_array = array_map(function ($item) {
-        return $item['category'];
-    }, $projects_list);
+    return array_reduce($projects_list, function ($carry, $item_project) use ($name) {
+        $carry += $item_project['category'] === $name ? 1 : 0;
 
-    return array_reduce($categories_array, function ($carry, $item) use ($name) {
-        $carry += $item === $name ? 1 : 0;
         return $carry;
     }, 0);
 }
