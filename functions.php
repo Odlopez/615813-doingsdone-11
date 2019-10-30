@@ -51,3 +51,18 @@ function getAllTasks()
         ]
     ];
 }
+
+/**
+ * Возвращает количество совпадающих по назанию категорий в переданном массиве проектов
+ * @param array $projects_list массив с проектами
+ * @param string $name имя категории
+ * @return int количество сопадающих категорий
+ */
+function counts_category_in_projects(array $projects_list, string $name): int
+{
+    return array_reduce($projects_list, function ($carry, $item_project) use ($name) {
+        $carry += $item_project['category'] === $name ? 1 : 0;
+
+        return $carry;
+    }, 0);
+}
