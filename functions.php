@@ -67,6 +67,11 @@ function counts_category_in_tasks(array $tasks_list, string $parameter_value): i
     }, 0);
 }
 
+/**
+ * Возвращает булевое значение - показатель срочности задачи
+ * @param string $date дата выполнения задачи представленная в строковом виде
+ * @return bool true - если задача срочная, false - если нет
+ */
 function checks_urgency_of_task(string $date): bool
 {
     $urgency_interval_in_hours = 24;
@@ -83,6 +88,11 @@ function checks_urgency_of_task(string $date): bool
     return $urgency_task;
 }
 
+/**
+ * Возвращает имена классов для строки в таблице задач
+ * @param array $task массив данных конкретной задачи
+ * @return string скроку с дополнительными именами класса для строки .task-item
+ */
 function get_task_class_name(array $task): string
 {
     return ''
