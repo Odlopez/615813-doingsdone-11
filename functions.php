@@ -105,5 +105,5 @@ function get_task_class_name(array $task): string
         $classes[] = 'task--important';
     }
 
-    return implode($classes);
+    return implode(' ', $classes);
 }
