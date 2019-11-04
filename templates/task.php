@@ -1,6 +1,4 @@
-<tr class="tasks__item task
-            <?= $task['isDone'] ? 'task--completed' : '' ?>
-            <?= checks_urgency_of_task(htmlspecialchars($task['date'])) ? 'task--important' : '' ?>">
+<tr class="tasks__item task <?= get_task_class_name($task) ?>">
     <td class="task__select">
         <label class="checkbox task__checkbox">
             <input class="checkbox__input visually-hidden task__checkbox"

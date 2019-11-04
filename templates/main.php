@@ -3,12 +3,12 @@
 
     <nav class="main-navigation">
         <ul class="main-navigation__list">
-            <?php foreach ($projects as $projectName) {
-                print((include_template('list-item.php', [
+            <?php foreach ($projects as $projectName) : ?>
+                <?= (include_template('list-item.php', [
                     'tasks' => $tasks,
                     'project' => $projectName
-                ])));
-            } ?>
+                ])); ?>
+            <?php endforeach ?>
         </ul>
     </nav>
 

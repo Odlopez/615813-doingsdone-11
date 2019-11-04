@@ -82,3 +82,10 @@ function checks_urgency_of_task(string $date): bool
 
     return $urgency_task;
 }
+
+function get_task_class_name(array $task): string
+{
+    return ''
+    . ($task['isDone'] ? 'task--completed' : '')
+    . (checks_urgency_of_task(htmlspecialchars($task['date'])) ? 'task--important' : '');
+}
