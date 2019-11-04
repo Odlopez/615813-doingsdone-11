@@ -23,7 +23,7 @@ function getAllTasks()
         ],
         [
             'task' => 'Сделать задание первого раздела',
-            'date' => '21.12.2019',
+            'date' => '05.11.2019',
             'category' => 'Учеба',
             'isDone' =>  true,
             'id' => 2
@@ -101,7 +101,7 @@ function get_task_class_name(array $task): string
         $classes[] = 'task--completed';
     }
 
-    if (checks_urgency_of_task(htmlspecialchars($task['date']))) {
+    if (checks_urgency_of_task(htmlspecialchars($task['date'])) && !$task['isDone']) {
         $classes[] = 'task--important';
     }
 
