@@ -7,7 +7,7 @@
                 <li class="main-navigation__list-item">
                     <a class="main-navigation__list-item-link" href="#"><?= htmlspecialchars($projectName) ?></a>
                     <span class="main-navigation__list-item-count">
-                                    <?= counts_category_in_projects($tasks, $projectName) ?>
+                                    <?= counts_category_in_tasks($tasks, $projectName) ?>
                                 </span>
                 </li>
             <?php endforeach; ?>
@@ -47,7 +47,9 @@
             <?php if ($show_complete_tasks === 0 && $taskItem['isDone']) {
                 continue;
             } ?>
-            <tr class="tasks__item task <?= $taskItem['isDone'] ? 'task--completed' : '' ?>">
+            <tr class="tasks__item task
+            <?= $taskItem['isDone'] ? 'task--completed' : '' ?>
+            <?= checks_urgency_of_task(htmlspecialchars($taskItem['date'])) ? 'task--important' : '' ?>">
                 <td class="task__select">
                     <label class="checkbox task__checkbox">
                         <input class="checkbox__input visually-hidden task__checkbox"
