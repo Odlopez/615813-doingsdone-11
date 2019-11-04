@@ -3,14 +3,12 @@
 
     <nav class="main-navigation">
         <ul class="main-navigation__list">
-            <?php foreach ($projects as $projectName) : ?>
-                <li class="main-navigation__list-item">
-                    <a class="main-navigation__list-item-link" href="#"><?= htmlspecialchars($projectName) ?></a>
-                    <span class="main-navigation__list-item-count">
-                                    <?= counts_category_in_tasks($tasks, $projectName) ?>
-                                </span>
-                </li>
-            <?php endforeach; ?>
+            <?php foreach ($projects as $projectName) {
+                print((include_template('list-item.php', [
+                    'tasks' => $tasks,
+                    'project' => $projectName
+                ])));
+            } ?>
         </ul>
     </nav>
 
