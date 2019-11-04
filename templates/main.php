@@ -7,7 +7,7 @@
                 <li class="main-navigation__list-item">
                     <a class="main-navigation__list-item-link" href="#"><?= htmlspecialchars($projectName) ?></a>
                     <span class="main-navigation__list-item-count">
-                                    <?= counts_category_in_projects($tasks, $projectName) ?>
+                                    <?= counts_category_in_tasks($tasks, $projectName) ?>
                                 </span>
                 </li>
             <?php endforeach; ?>
