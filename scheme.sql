@@ -21,6 +21,7 @@ CREATE TABLE tasks (
     name VARCHAR(255) NOT NULL,
     project_id INT NOT NULL,
     date_task TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    file CHAR,
+    file VARCHAR(255),
+    is_done CHAR(4) DEFAULT NULL,
     used_id INT NOT NULL
 );
