@@ -23,6 +23,6 @@ CREATE TABLE tasks (
     project_id INT NOT NULL,
     date_task TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     file VARCHAR(255),
-    is_done BIT,
+    is_done TINYINT,
     user_id INT NOT NULL
 );
