@@ -1,8 +1,8 @@
-CREATE DATABASE doingsdone
+CREATE DATABASE 615813_doingsdone_11
     DEFAULT CHARACTER SET utf8
     DEFAULT COLLATE utf8_general_ci;
 
-USE doingsdone;
+USE 615813_doingsdone_11;
 
 CREATE TABLE users (
    id INT AUTO_INCREMENT PRIMARY KEY,
@@ -13,7 +13,8 @@ CREATE TABLE users (
 
 CREATE TABLE projects (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL UNIQUE
+    name VARCHAR(100) NOT NULL UNIQUE,
+    user_id INT NOT NULL
 );
 
 CREATE TABLE tasks (
@@ -22,6 +23,6 @@ CREATE TABLE tasks (
     project_id INT NOT NULL,
     date_task TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     file VARCHAR(255),
-    is_done CHAR(4) DEFAULT NULL,
-    used_id INT NOT NULL
+    is_done BIT,
+    user_id INT NOT NULL
 );
