@@ -21,7 +21,7 @@ CREATE TABLE tasks (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     project_id INT NOT NULL,
-    date_task TIMESTAMP,
-    file VARCHAR(255),
-    is_done TINYINT
+    deadline DATE DEFAULT NULL,
+    file VARCHAR(255) DEFAULT '',
+    is_done TINYINT DEFAULT 0
 );
