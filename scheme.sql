@@ -1,0 +1,27 @@
+CREATE DATABASE `615813-doingsdone-11`
+    DEFAULT CHARACTER SET utf8
+    DEFAULT COLLATE utf8_general_ci;
+
+USE `615813-doingsdone-11`;
+
+CREATE TABLE users (
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   name VARCHAR(140) NOT NULL,
+   email VARCHAR(128) NOT NULL UNIQUE,
+   password VARCHAR(80) NOT NULL
+);
+
+CREATE TABLE projects (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    user_id INT NOT NULL
+);
+
+CREATE TABLE tasks (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    project_id INT NOT NULL,
+    deadline DATE DEFAULT NULL,
+    file VARCHAR(255) DEFAULT '',
+    is_done TINYINT DEFAULT 0
+);
