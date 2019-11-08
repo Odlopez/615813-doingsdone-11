@@ -6,7 +6,7 @@ VALUES ('odlopez', 'odlopez@inbox.ru', ',ekjxrfc,htdyjv'), ('kostyan', 'warrior2
 
 INSERT INTO tasks (name, project_id, deadline, is_done, file)
 VALUES ('Собеседование в IT компании', 3, DATE('2019.12.01'), 0, NULL),
-   ('Выполнить тестовое задание', 3, DATE('2019.11.08'), 0, NULL),
+   ('Выполнить тестовое задание', 3, DATE('2019.11.09'), 0, NULL),
    ('Сделать задание первого раздела', 2, DATE('2019.11.05'), 1, NULL),
    ('Встреча с другом', 1, DATE('2019.12.22'), 0, NULL),
    ('Купить корм для кота', 4, NULL, 0, NULL),

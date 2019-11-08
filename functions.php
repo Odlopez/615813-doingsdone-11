@@ -97,13 +97,27 @@ function get_task_class_name(array $task): string
 {
     $classes = [];
 
-    if ($task['isDone']) {
+    if ($task['is_done']) {
         $classes[] = 'task--completed';
     }
 
-    if (checks_urgency_of_task(htmlspecialchars($task['date'])) && !$task['isDone']) {
+    if (checks_urgency_of_task(htmlspecialchars($task['deadline'])) && !$task['is_done']) {
         $classes[] = 'task--important';
     }
 
     return implode(' ', $classes);
+}
+
+function get_db_result($link, $sql, $data = [])
+{
+    $result = [];
+    $stmt = db_get_prepare_stmt($link, $sql, $data);
+    mysqli_stmt_execute($stmt);
+
+    $res = mysqli_stmt_get_result($stmt);
+
+    if ($res) {
+        $result = mysqli_fetch_all($res, MYSQLI_ASSOC);
+    }
+    return $result;
 }
