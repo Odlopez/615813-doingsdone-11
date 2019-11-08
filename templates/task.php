@@ -12,6 +12,6 @@
         <a class="download-link" href="#">Home.psd</a>
     </td>
 
-    <td class="task__date"><?= htmlspecialchars($task['deadline']) ?></td>
+    <td class="task__date"><?= $task['deadline'] ? date("d.m.Y", strtotime($task['deadline'])) : '' ?></td>
     <td class="task__controls"></td>
 </tr>

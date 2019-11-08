@@ -1,55 +1,31 @@
 <?php
-function getAllProjects()
+/**
+ * Возвращает все проекты для заданных условий
+ * @param $link mysqli Ресурс соединения
+ * @param array $data массив значений для подстановки в sql-запрос
+ * @return array результат запроса к БД в виде массива
+ */
+function getAllProjects($link, $data = [])
 {
-    return ['Входящие', 'Учеба', 'Работа', 'Домашние дела', 'Авто'];
+    $sql_projects = "SELECT name FROM projects WHERE user_id = ?";
+
+    return get_db_result($link, $sql_projects, $data);
 }
 
-function getAllTasks()
+/**
+ * Возвращает задачи для заданных условий
+ * @param $link mysqli Ресурс соединения
+ * @param array $data массив значений для подстановки в sql-запрос
+ * @return array результат запроса к БД в виде массива
+ */
+function getAllTasks($link, $data = [])
 {
-    return [
-        [
-            'task' => 'Собеседование в IT компании',
-            'date' => '01.12.2019',
-            'category' => 'Работа',
-            'isDone' =>  false,
-            'id' => 0
-        ],
-        [
-            'task' => 'Выполнить тестовое задание',
-            'date' => '05.11.2019',
-            'category' => 'Работа',
-            'isDone' =>  false,
-            'id' => 1
-        ],
-        [
-            'task' => 'Сделать задание первого раздела',
-            'date' => '05.11.2019',
-            'category' => 'Учеба',
-            'isDone' =>  true,
-            'id' => 2
-        ],
-        [
-            'task' => 'Встреча с другом',
-            'date' => '22.12.2019',
-            'category' => 'Входящие',
-            'isDone' =>  false,
-            'id' => 3
-        ],
-        [
-            'task' => 'Купить корм для кота',
-            'date' => null,
-            'category' => 'Домашние дела',
-            'isDone' =>  false,
-            'id' => 4
-        ],
-        [
-            'task' => 'Заказать пиццу',
-            'date' => null,
-            'category' => 'Домашние дела',
-            'isDone' =>  false,
-            'id' => 5
-        ]
-    ];
+    $sql_tasks = <<<SQL
+        SELECT t.name AS task_name, p.name AS project_name, t.deadline, t.is_done 
+        FROM tasks t JOIN projects p ON t.project_id = p.id WHERE user_id = ?
+SQL;
+
+    return get_db_result($link, $sql_tasks, $data);
 }
 
 /**
@@ -61,7 +37,7 @@ function getAllTasks()
 function counts_category_in_tasks(array $tasks_list, string $parameter_value): int
 {
     return array_reduce($tasks_list, function ($carry, $item_task) use ($parameter_value) {
-        $carry += $item_task['category'] === $parameter_value ? 1 : 0;
+        $carry += $item_task['project_name'] === $parameter_value ? 1 : 0;
 
         return $carry;
     }, 0);
@@ -108,6 +84,12 @@ function get_task_class_name(array $task): string
     return implode(' ', $classes);
 }
 
+/**
+ * @param $link mysqli Ресурс соединения
+ * @param string $sql SQL запрос с плейсхолдерами вместо значений
+ * @param array $data массив значений для подстановки в sql-запрос
+ * @return array  результат запроса к БД в виде массива
+ */
 function get_db_result($link, $sql, $data = [])
 {
     $result = [];
