@@ -4,7 +4,7 @@
             <input class="checkbox__input visually-hidden task__checkbox"
                    type="checkbox" value="<?= htmlspecialchars($task['id']); ?>"
                 <?= $task['isDone'] ? 'checked' : '' ?>>
-            <span class="checkbox__text"><?= htmlspecialchars($task['task']) ?></span>
+            <span class="checkbox__text"><?= htmlspecialchars($task['name']) ?></span>
         </label>
     </td>
 
@@ -12,6 +12,6 @@
         <a class="download-link" href="#">Home.psd</a>
     </td>
 
-    <td class="task__date"><?= htmlspecialchars($task['date']) ?></td>
+    <td class="task__date"><?= $task['deadline'] ? date("d.m.Y", strtotime($task['deadline'])) : '' ?></td>
     <td class="task__controls"></td>
 </tr>
