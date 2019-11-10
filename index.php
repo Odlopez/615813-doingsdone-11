@@ -1,6 +1,6 @@
 <?php
-require_once 'functions.php';
 require_once 'helpers.php';
+require_once 'functions.php';
 
 $con = mysqli_connect("localhost", "root", "", "615813-doingsdone-11");
 
@@ -14,8 +14,8 @@ mysqli_set_charset($con, "utf8");
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 $user_id = 2;
-$projects = getAllProjects($con, [$user_id]);
-$tasks = getAllTasks($con, [$user_id]);
+$projects = getAllProjects($con, $user_id);
+$tasks = getAllTasks($con, $user_id);
 
 $page_content = include_template('main.php', [
     'projects' => $projects,

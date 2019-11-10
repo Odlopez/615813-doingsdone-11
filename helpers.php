@@ -142,3 +142,23 @@ function include_template($name, array $data = []) {
 
     return $result;
 }
+
+/**
+ * @param $link mysqli Ресурс соединения
+ * @param string $sql SQL запрос с плейсхолдерами вместо значений
+ * @param array $data массив значений для подстановки в sql-запрос
+ * @return array  результат запроса к БД в виде массива
+ */
+function get_db_result($link, string $sql, array $data = []): array
+{
+    $result = [];
+    $stmt = db_get_prepare_stmt($link, $sql, $data);
+    mysqli_stmt_execute($stmt);
+
+    $res = mysqli_stmt_get_result($stmt);
+
+    if ($res) {
+        $result = mysqli_fetch_all($res, MYSQLI_ASSOC);
+    }
+    return $result;
+}

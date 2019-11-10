@@ -2,30 +2,28 @@
 /**
  * Возвращает все проекты для заданных условий
  * @param $link mysqli Ресурс соединения
- * @param array $data массив значений для подстановки в sql-запрос
+ * @param int $user_id массив значений для подстановки в sql-запрос
  * @return array результат запроса к БД в виде массива
  */
-function getAllProjects($link, $data = [])
+function getAllProjects($link, int $user_id): array
 {
     $sql_projects = "SELECT name FROM projects WHERE user_id = ?";
 
-    return get_db_result($link, $sql_projects, $data);
+    return get_db_result($link, $sql_projects, [$user_id]);
 }
 
 /**
  * Возвращает задачи для заданных условий
  * @param $link mysqli Ресурс соединения
- * @param array $data массив значений для подстановки в sql-запрос
+ * @param int $user_id массив значений для подстановки в sql-запрос
  * @return array результат запроса к БД в виде массива
  */
-function getAllTasks($link, $data = [])
+function getAllTasks($link, int $user_id): array
 {
-    $sql_tasks = <<<SQL
-        SELECT t.name AS task_name, p.name AS project_name, t.deadline, t.is_done 
-        FROM tasks t JOIN projects p ON t.project_id = p.id WHERE user_id = ?
-SQL;
+    $sql_tasks = "SELECT *, t.name AS name, p.name AS project_name FROM tasks t 
+    JOIN projects p ON t.project_id = p.id WHERE user_id = ?";
 
-    return get_db_result($link, $sql_tasks, $data);
+    return get_db_result($link, $sql_tasks, [$user_id]);
 }
 
 /**
@@ -82,24 +80,4 @@ function get_task_class_name(array $task): string
     }
 
     return implode(' ', $classes);
-}
-
-/**
- * @param $link mysqli Ресурс соединения
- * @param string $sql SQL запрос с плейсхолдерами вместо значений
- * @param array $data массив значений для подстановки в sql-запрос
- * @return array  результат запроса к БД в виде массива
- */
-function get_db_result($link, $sql, $data = [])
-{
-    $result = [];
-    $stmt = db_get_prepare_stmt($link, $sql, $data);
-    mysqli_stmt_execute($stmt);
-
-    $res = mysqli_stmt_get_result($stmt);
-
-    if ($res) {
-        $result = mysqli_fetch_all($res, MYSQLI_ASSOC);
-    }
-    return $result;
 }
