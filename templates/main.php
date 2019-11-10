@@ -42,7 +42,7 @@
 
     <table class="tasks">
         <?php foreach ($tasks as $taskItem) : ?>
-            <?php if ($show_complete_tasks === 0 && $taskItem['is_done']) {
+            <?php if ($show_complete_tasks === 0 && $taskItem['is_done'] === 1) {
                 continue;
             } ?>
             <?= (include_template('task.php', [
