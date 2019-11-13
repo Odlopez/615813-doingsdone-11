@@ -7,7 +7,7 @@
  */
 function getAllProjects($link, int $user_id): array
 {
-    $sql_projects = "SELECT name FROM projects WHERE user_id = ?";
+    $sql_projects = "SELECT name, id FROM projects WHERE user_id = ?";
 
     return get_db_result($link, $sql_projects, [$user_id]);
 }
@@ -16,14 +16,33 @@ function getAllProjects($link, int $user_id): array
  * Возвращает задачи для заданных условий
  * @param $link mysqli Ресурс соединения
  * @param int $user_id массив значений для подстановки в sql-запрос
+ * @param int $project_id имя проекту, по которому нужно фильтровать задачи
+ * @return array результат запроса к БД в виде массива
+ */
+function getProjectTasks($link, int $user_id, int $project_id): array
+{
+    $sql_tasks = "SELECT *, t.name AS name, p.name AS project_name, p.id AS project_id FROM tasks t 
+    JOIN projects p ON t.project_id = p.id WHERE user_id = ?";
+
+    $data = [$user_id];
+
+    if ($project_id !== 0) {
+        $sql_tasks = $sql_tasks . "  AND p.id = ?";
+        $data[] = $project_id;
+    }
+
+    return get_db_result($link, $sql_tasks, $data);
+}
+
+/**
+ * Возвращает задачи для всех проектов определенного юзера
+ * @param $link mysqli Ресурс соединения
+ * @param int $user_id массив значений для подстановки в sql-запрос
  * @return array результат запроса к БД в виде массива
  */
 function getAllTasks($link, int $user_id): array
 {
-    $sql_tasks = "SELECT *, t.name AS name, p.name AS project_name FROM tasks t 
-    JOIN projects p ON t.project_id = p.id WHERE user_id = ?";
-
-    return get_db_result($link, $sql_tasks, [$user_id]);
+    return getProjectTasks($link, $user_id, 0);
 }
 
 /**
@@ -75,8 +94,25 @@ function get_task_class_name(array $task): string
         $classes[] = 'task--completed';
     }
 
-    if (checks_urgency_of_task(htmlspecialchars($task['deadline'])) && !$task['is_done']) {
+    if (checks_urgency_of_task((string)($task['deadline'])) && !$task['is_done']) {
         $classes[] = 'task--important';
+    }
+
+    return implode(' ', $classes);
+}
+
+/**
+ * Возвращает имена классов для ссылки проекта
+ * @param array $project массив данных конкретной задачи
+ * @param int $project_id айди выбранного проекта
+ * @return string скроку с дополнительными именами класса для строки .task-item
+ */
+function get_project_class_name(array $project, int $project_id): string
+{
+    $classes = [];
+
+    if ((int)$project['id'] === $project_id) {
+        $classes[] = 'main-navigation__list-item--active';
     }
 
     return implode(' ', $classes);

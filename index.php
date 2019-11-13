@@ -10,17 +10,28 @@ if ($con === false) {
 
 mysqli_set_charset($con, "utf8");
 
-
-// показывать или нет выполненные задачи
-$show_complete_tasks = rand(0, 1);
+$show_complete_tasks = 0;
 $user_id = 2;
+$project_id = 0;
 $projects = getAllProjects($con, $user_id);
-$tasks = getAllTasks($con, $user_id);
+$all_tasks = getAllTasks($con, $user_id);
+$project_tasks = $all_tasks;
+
+if (isset($_GET['project_id'])) {
+    $project_id = (int)$_GET['project_id'];
+    $project_tasks = getProjectTasks($con, $user_id, $project_id);
+}
+
+if (isset($_GET['show_completed'])) {
+    $show_complete_tasks = (int)$_GET['show_completed'];
+}
 
 $page_content = include_template('main.php', [
     'projects' => $projects,
     'show_complete_tasks' => $show_complete_tasks,
-    'tasks' => $tasks
+    'all_tasks' => $all_tasks,
+    'tasks' => $project_tasks,
+    'project_id' => $project_id
 ]);
 
 $layout_content = include_template('layout.php', [

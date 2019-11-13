@@ -5,8 +5,9 @@
         <ul class="main-navigation__list">
             <?php foreach ($projects as $projectName) : ?>
                 <?= (include_template('list-item.php', [
-                    'tasks' => $tasks,
-                    'project' => $projectName
+                    'tasks' => $all_tasks,
+                    'project' => $projectName,
+                    'project_id' => $project_id
                 ])); ?>
             <?php endforeach ?>
         </ul>
