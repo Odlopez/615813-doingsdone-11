@@ -28,12 +28,12 @@ function getTasks($link, int $user_id, array $options = []): array
 
     $data = [$user_id];
 
-    if ((int)$options['is_done'] === 0) {
+    if (isset($options['is_done']) && (int)$options['is_done'] === 0) {
         $sql_tasks = $sql_tasks . " AND t.is_done = ?";
         $data[] = (int)$options['is_done'];
     }
 
-    if ($options['project_id'] !== null) {
+    if (isset($options['project_id']) && $options['project_id'] !== null) {
         $sql_tasks = $sql_tasks . "  AND p.id = ?";
         $data[] = (int)$options['project_id'];
     }
@@ -51,7 +51,7 @@ function get_list_item_link_href(string $progect_id, int $show_completed = null)
     $href = [];
     $href[] = '?project_id=' . $progect_id;
 
-    if ($show_completed !== null) {
+    if ($show_completed === 1) {
         $href[] = 'show_completed=' . $show_completed;
     }
 
