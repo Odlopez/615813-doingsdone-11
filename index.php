@@ -10,20 +10,22 @@ if ($con === false) {
 
 mysqli_set_charset($con, "utf8");
 
-$show_complete_tasks = 0;
-$user_id = 2;
-$project_id = 0;
-$projects = getAllProjects($con, $user_id);
-$all_tasks = getAllTasks($con, $user_id);
-$project_tasks = $all_tasks;
-
-if (isset($_GET['project_id'])) {
-    $project_id = (int)$_GET['project_id'];
-    $project_tasks = getProjectTasks($con, $user_id, $project_id);
-}
-
 if (isset($_GET['show_completed'])) {
     $show_complete_tasks = (int)$_GET['show_completed'];
+} else {
+    $show_complete_tasks = 0;
+}
+
+$user_id = 2;
+$projects = getAllProjects($con, $user_id);
+$all_tasks = getTasks($con, $user_id, ['is_done' => $show_complete_tasks]);
+
+if (isset($_GET['project_id'])) {
+    $active_project_id = $_GET['project_id'];
+    $project_tasks = getTasks($con, $user_id, ['is_done' => $show_complete_tasks, 'project_id' => $active_project_id]);
+} else {
+    $active_project_id = null;
+    $project_tasks =  $all_tasks;
 }
 
 $page_content = include_template('main.php', [
@@ -31,7 +33,8 @@ $page_content = include_template('main.php', [
     'show_complete_tasks' => $show_complete_tasks,
     'all_tasks' => $all_tasks,
     'tasks' => $project_tasks,
-    'project_id' => $project_id
+    'active_project_id' => $active_project_id
+
 ]);
 
 $layout_content = include_template('layout.php', [
