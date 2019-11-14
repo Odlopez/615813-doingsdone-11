@@ -7,7 +7,8 @@
  */
 function getAllProjects($link, int $user_id): array
 {
-    $sql_projects = "SELECT name, id FROM projects WHERE user_id = ?";
+    $sql_projects = "SELECT p.name, p.id, COUNT(t.id) as tasks_count FROM projects p 
+    LEFT JOIN tasks t ON t.project_id = p.id WHERE user_id = ? GROUP BY p.id";
 
     return get_db_result($link, $sql_projects, [$user_id]);
 }
@@ -55,21 +56,6 @@ function get_list_item_link_href(string $progect_id, int $show_completed = null)
     }
 
     return implode('&', $href);
-}
-
-/**
- * Возвращает количество совпадающих по назанию категорий в переданном массиве проектов
- * @param array $tasks_list массив с задачами
- * @param string $parameter_value имя категории
- * @return int количество сопадающих категорий
- */
-function counts_category_in_tasks(array $tasks_list, string $parameter_value): int
-{
-    return array_reduce($tasks_list, function ($carry, $item_task) use ($parameter_value) {
-        $carry += $item_task['project_name'] === $parameter_value ? 1 : 0;
-
-        return $carry;
-    }, 0);
 }
 
 /**

@@ -4,6 +4,6 @@
     </a>
 
     <span class="main-navigation__list-item-count">
-        <?= counts_category_in_tasks($tasks, $project['name']) ?>
+        <?= $project['tasks_count'] ?>
     </span>
 </li>

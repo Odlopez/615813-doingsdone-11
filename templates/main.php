@@ -5,7 +5,6 @@
         <ul class="main-navigation__list">
             <?php foreach ($projects as $projectName) : ?>
                 <?= (include_template('list-item.php', [
-                    'tasks' => $all_tasks,
                     'project' => $projectName,
                     'show_complete_tasks' => $show_complete_tasks,
                     'active_project_id' => $active_project_id
