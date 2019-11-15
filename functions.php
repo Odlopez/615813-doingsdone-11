@@ -7,7 +7,8 @@
  */
 function getAllProjects($link, int $user_id): array
 {
-    $sql_projects = "SELECT name FROM projects WHERE user_id = ?";
+    $sql_projects = "SELECT p.name, p.id, COUNT(t.id) as tasks_count FROM projects p 
+    LEFT JOIN tasks t ON t.project_id = p.id WHERE user_id = ? GROUP BY p.id";
 
     return get_db_result($link, $sql_projects, [$user_id]);
 }
@@ -16,29 +17,45 @@ function getAllProjects($link, int $user_id): array
  * Возвращает задачи для заданных условий
  * @param $link mysqli Ресурс соединения
  * @param int $user_id массив значений для подстановки в sql-запрос
+ * @param int $is_done идентефикатор завершенных заданий
+ * @param int $project_id имя проекту, по которому нужно фильтровать задачи
  * @return array результат запроса к БД в виде массива
  */
-function getAllTasks($link, int $user_id): array
+function getTasks($link, int $user_id, array $options = []): array
 {
-    $sql_tasks = "SELECT *, t.name AS name, p.name AS project_name FROM tasks t 
+    $sql_tasks = "SELECT *, t.name AS name, p.name AS project_name, p.id AS project_id FROM tasks t 
     JOIN projects p ON t.project_id = p.id WHERE user_id = ?";
 
-    return get_db_result($link, $sql_tasks, [$user_id]);
+    $data = [$user_id];
+
+    if (isset($options['is_done']) && (int)$options['is_done'] === 0) {
+        $sql_tasks = $sql_tasks . " AND t.is_done = ?";
+        $data[] = (int)$options['is_done'];
+    }
+
+    if (isset($options['project_id']) && $options['project_id'] !== null) {
+        $sql_tasks = $sql_tasks . "  AND p.id = ?";
+        $data[] = (int)$options['project_id'];
+    }
+
+    return get_db_result($link, $sql_tasks, $data);
 }
 
 /**
- * Возвращает количество совпадающих по назанию категорий в переданном массиве проектов
- * @param array $tasks_list массив с задачами
- * @param string $parameter_value имя категории
- * @return int количество сопадающих категорий
+ * Возвращает адресс ссылки проекта, в зависимости переданных get-данных
+ * @param string $progect_id айдишник проекта
+ * @return string ссылка для .main-navigation__list-item-link
  */
-function counts_category_in_tasks(array $tasks_list, string $parameter_value): int
+function get_list_item_link_href(string $progect_id, int $show_completed = null): string
 {
-    return array_reduce($tasks_list, function ($carry, $item_task) use ($parameter_value) {
-        $carry += $item_task['project_name'] === $parameter_value ? 1 : 0;
+    $href = [];
+    $href[] = '?project_id=' . $progect_id;
 
-        return $carry;
-    }, 0);
+    if ($show_completed === 1) {
+        $href[] = 'show_completed=' . $show_completed;
+    }
+
+    return implode('&', $href);
 }
 
 /**
@@ -75,8 +92,24 @@ function get_task_class_name(array $task): string
         $classes[] = 'task--completed';
     }
 
-    if (checks_urgency_of_task(htmlspecialchars($task['deadline'])) && !$task['is_done']) {
+    if (checks_urgency_of_task((string)($task['deadline'])) && !$task['is_done']) {
         $classes[] = 'task--important';
+    }
+
+    return implode(' ', $classes);
+}
+
+/**
+ * Возвращает имена классов для ссылки проекта
+ * @param array $project массив данных конкретной задачи
+ * @return string скроку с дополнительными именами класса для строки .task-item
+ */
+function get_project_class_name(array $project, int $project_id = null): string
+{
+    $classes = [];
+
+    if ($project_id !== null && $project['id'] === (int)$project_id) {
+        $classes[] = 'main-navigation__list-item--active';
     }
 
     return implode(' ', $classes);

@@ -3,7 +3,7 @@
         <label class="checkbox task__checkbox">
             <input class="checkbox__input visually-hidden task__checkbox"
                    type="checkbox" value="<?= htmlspecialchars($task['id']); ?>"
-                <?= $task['isDone'] ? 'checked' : '' ?>>
+                <?= $task['is_done'] ? 'checked' : '' ?>>
             <span class="checkbox__text"><?= htmlspecialchars($task['name']) ?></span>
         </label>
     </td>
