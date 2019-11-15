@@ -17,8 +17,6 @@ function getAllProjects($link, int $user_id): array
  * Возвращает задачи для заданных условий
  * @param $link mysqli Ресурс соединения
  * @param int $user_id массив значений для подстановки в sql-запрос
- * @param int $is_done идентефикатор завершенных заданий
- * @param int $project_id имя проекту, по которому нужно фильтровать задачи
  * @return array результат запроса к БД в виде массива
  */
 function getTasks($link, int $user_id, array $options = []): array
@@ -44,6 +42,7 @@ function getTasks($link, int $user_id, array $options = []): array
 /**
  * Возвращает адресс ссылки проекта, в зависимости переданных get-данных
  * @param string $progect_id айдишник проекта
+ * @param int $show_completed идентефикатор, определяющий показывать ли выполненные задачи
  * @return string ссылка для .main-navigation__list-item-link
  */
 function get_list_item_link_href(string $progect_id, int $show_completed = null): string
@@ -102,6 +101,7 @@ function get_task_class_name(array $task): string
 /**
  * Возвращает имена классов для ссылки проекта
  * @param array $project массив данных конкретной задачи
+ * @param int $project_id айдишник целевого проекта
  * @return string скроку с дополнительными именами класса для строки .task-item
  */
 function get_project_class_name(array $project, int $project_id = null): string
