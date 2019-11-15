@@ -3,9 +3,9 @@
 
     <nav class="main-navigation">
         <ul class="main-navigation__list">
-            <?php foreach ($projects as $projectName) : ?>
+            <?php foreach ($projects as $project) : ?>
                 <?= (include_template('list-item.php', [
-                    'project' => $projectName,
+                    'project' => $project,
                     'show_complete_tasks' => $show_complete_tasks,
                     'active_project_id' => $active_project_id
                 ])); ?>
