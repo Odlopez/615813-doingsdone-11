@@ -7,21 +7,21 @@ VALUES ('Спальные', 2), ('Едальные', 2), ('Отдыхальны�
 INSERT INTO users (name, email, password)
 VALUES ('odlopez', 'odlopez@inbox.ru', ',ekjxrfc,htdyjv'), ('kostyan', 'warrior2008@gmail.com', 'vfvfcrfpfkfzrhfcbdsq');
 
-INSERT INTO tasks (name, project_id, deadline, is_done, file)
-VALUES ('Собеседование в IT компании', 3, DATE('2019.12.01'), 0, NULL),
-   ('Выполнить тестовое задание', 3, DATE('2019.11.09'), 0, NULL),
-   ('Сделать задание первого раздела', 2, DATE('2019.11.05'), 1, NULL),
-   ('Встреча с другом', 1, DATE('2019.12.22'), 0, NULL),
-   ('Купить корм для кота', 4, NULL, 0, NULL),
-   ('Заказать пиццу', 4, NULL, 0, NULL);
+INSERT INTO tasks (name, project_id, deadline, is_done, file_name, file_path)
+VALUES ('Собеседование в IT компании', 3, DATE('2019.12.01'), 0, NULL, NULL),
+   ('Выполнить тестовое задание', 3, DATE('2019.11.09'), 0, NULL, NULL),
+   ('Сделать задание первого раздела', 2, DATE('2019.11.05'), 1, NULL, NULL),
+   ('Встреча с другом', 1, DATE('2019.12.22'), 0, NULL, NULL),
+   ('Купить корм для кота', 4, NULL, 0, NULL, NULL),
+   ('Заказать пиццу', 4, NULL, 0, NULL, NULL);
 
-INSERT INTO tasks (name, project_id, deadline, is_done, file)
-VALUES ('Выспаться', 6, DATE('2019.11.09'), 0, NULL),
-       ('Сварить картоху', 7, DATE('2019.11.09'), 0, NULL),
-       ('Победить грибы в кастрюле', 7, DATE('2019.11.05'), 0, NULL),
-       ('Пройти StarCraft 2', 8, DATE('2019.12.22'), 1, NULL),
-       ('Пожамкать Светку', 9, NULL, 0, NULL),
-       ('Стать Росомахой', 9, NULL, 0, NULL);
+INSERT INTO tasks (name, project_id, deadline, is_done, file_name, file_path)
+VALUES ('Выспаться', 6, DATE('2019.11.09'), 0, NULL, NULL),
+       ('Сварить картоху', 7, DATE('2019.11.09'), 0, NULL, NULL),
+       ('Победить грибы в кастрюле', 7, DATE('2019.11.05'), 0, NULL, NULL),
+       ('Пройти StarCraft 2', 8, DATE('2019.12.22'), 1, NULL, NULL),
+       ('Пожамкать Светку', 9, NULL, 0, NULL, NULL),
+       ('Стать Росомахой', 9, NULL, 0, NULL, NULL);
 
 SELECT * FROM projects WHERE user_id = 1;
 

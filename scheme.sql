@@ -22,6 +22,7 @@ CREATE TABLE tasks (
     name VARCHAR(255) NOT NULL,
     project_id INT NOT NULL,
     deadline DATE DEFAULT NULL,
-    file VARCHAR(255) DEFAULT '',
+    file_name VARCHAR(255) DEFAULT '',
+    file_path VARCHAR(255) DEFAULT '',
     is_done TINYINT DEFAULT 0
 );

@@ -9,7 +9,12 @@
     </td>
 
     <td class="task__file">
-        <a class="download-link" href="#">Home.psd</a>
+        <?php if (isset($task['file_name']) && isset($task['file_path'])) : ?>
+            <a class="download-link"
+               href="<?= $task['file_path'] ?>">
+                <?= htmlspecialchars($task['file_name']) ?>
+            </a>
+        <?php endif ?>
     </td>
 
     <td class="task__date"><?= $task['deadline'] ? date("d.m.Y", strtotime($task['deadline'])) : '' ?></td>

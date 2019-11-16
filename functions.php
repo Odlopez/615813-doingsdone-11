@@ -39,6 +39,14 @@ function getTasks($link, int $user_id, array $options = []): array
     return get_db_result($link, $sql_tasks, $data);
 }
 
+function setTasks($link, array $options)
+{
+    $sql_add_task = "INSERT INTO tasks (name, project_id, deadline, file_name, file_path)
+        VALUES (?, ?, ?, ?, ?)";
+
+    return get_db_result($link, $sql_add_task, $options);
+}
+
 /**
  * Возвращает адресс ссылки проекта, в зависимости переданных get-данных
  * @param string $progect_id айдишник проекта
@@ -48,7 +56,7 @@ function getTasks($link, int $user_id, array $options = []): array
 function get_list_item_link_href(string $progect_id, int $show_completed = null): string
 {
     $href = [];
-    $href[] = '?project_id=' . $progect_id;
+    $href[] = '/index.php?project_id=' . $progect_id;
 
     if ($show_completed === 1) {
         $href[] = 'show_completed=' . $show_completed;
@@ -113,4 +121,61 @@ function get_project_class_name(array $project, int $project_id = null): string
     }
 
     return implode(' ', $classes);
+}
+
+/**
+ * Валидирует поле с названием задачи
+ * @param string $task_name название задачи
+ * @return bool
+ */
+function validate_task_name(string $task_name)
+{
+    if (strlen($task_name) === 0) {
+        return 'Поле не должно быть пустым';
+    } elseif (strlen($task_name) > 255) {
+        return 'Название задачи не должно превышать 255 символов';
+    }
+
+    return false;
+}
+
+/**
+ * Валидирует поле прогектов
+ * @param array $projects массив с проектами доступными пользователю
+ * @param int $project_id айдишник выбранного в поле проекта
+ * @return bool
+ */
+function validate_project(array $projects, int $project_id)
+{
+    $is_not_correct_id = true;
+
+    array_walk($projects, function ($item) use ($project_id, &$is_not_correct_id) {
+        if (isset($item['id']) && $item['id'] == $project_id) {
+            $is_not_correct_id  = false;
+        }
+    });
+
+    return $is_not_correct_id ? 'Такого проекта не существует' : false;
+}
+
+/**
+ * Валидирует поле с датой задачи
+ * @param string $date_value значение поле даты задачи
+ * @return bool
+ */
+function validate_date(string $date_value)
+{
+    if (strlen($date_value) > 0) {
+        $now_date = date('Y-m-d', time());
+
+        if (!is_date_valid($date_value)) {
+            return 'Дата должна быть в формате \'ГГГГ-ММ-ДД\'';
+        } elseif ($date_value < $now_date) {
+            return 'Дата должна быть больше или равна текущей';
+        }
+
+        return false;
+    }
+
+    return false;
 }
