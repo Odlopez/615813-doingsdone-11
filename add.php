@@ -1,16 +1,8 @@
 <?php
 require_once 'helpers.php';
 require_once 'functions.php';
+require_once 'sql-connect.php';
 
-$con = mysqli_connect("localhost", "root", "", "615813-doingsdone-11");
-
-if ($con === false) {
-    exit("Ошибка подключения: " . mysqli_connect_error());
-}
-
-mysqli_set_charset($con, "utf8");
-
-$user_id = 2;
 $projects = getAllProjects($con, $user_id);
 $new_task = [];
 $errors = [];
@@ -30,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         },
     ];
 
-    foreach ($_POST as $key => $value) {
+    foreach ($new_task as $key => $value) {
         if (isset($rules[$key])) {
             $rule = $rules[$key];
             $errors[$key] = $rule($value);
@@ -51,9 +43,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         $task_data = [
-            htmlspecialchars($new_task['name']),
+            $new_task['name'],
             (int)$new_task['project'],
-            DATE($new_task['date']),
+            $new_task['date'] === '' ? null : $new_task['date'],
             $path ?? null,
             $new_file_path ?? null
         ];

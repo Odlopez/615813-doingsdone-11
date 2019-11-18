@@ -126,7 +126,7 @@ function get_project_class_name(array $project, int $project_id = null): string
 /**
  * Валидирует поле с названием задачи
  * @param string $task_name название задачи
- * @return bool
+ * @return string | bool
  */
 function validate_task_name(string $task_name)
 {
@@ -143,7 +143,7 @@ function validate_task_name(string $task_name)
  * Валидирует поле прогектов
  * @param array $projects массив с проектами доступными пользователю
  * @param int $project_id айдишник выбранного в поле проекта
- * @return bool
+ * @return string | bool
  */
 function validate_project(array $projects, int $project_id)
 {
@@ -161,7 +161,7 @@ function validate_project(array $projects, int $project_id)
 /**
  * Валидирует поле с датой задачи
  * @param string $date_value значение поле даты задачи
- * @return bool
+ * @return string | bool
  */
 function validate_date(string $date_value)
 {
