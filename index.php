@@ -1,22 +1,13 @@
 <?php
 require_once 'helpers.php';
 require_once 'functions.php';
-
-$con = mysqli_connect("localhost", "root", "", "615813-doingsdone-11");
-
-if ($con === false) {
-    exit("Ошибка подключения: " . mysqli_connect_error());
-}
-
-mysqli_set_charset($con, "utf8");
+require_once 'sql-connect.php';
 
 if (isset($_GET['show_completed'])) {
     $show_complete_tasks = (int)$_GET['show_completed'];
 } else {
     $show_complete_tasks = 0;
 }
-
-$user_id = 2;
 $projects = getAllProjects($con, $user_id);
 
 if (isset($_GET['project_id'])) {
