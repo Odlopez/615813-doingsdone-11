@@ -17,6 +17,7 @@ function getAllProjects($link, int $user_id): array
  * Возвращает задачи для заданных условий
  * @param $link mysqli Ресурс соединения
  * @param int $user_id массив значений для подстановки в sql-запрос
+ * @param array $options массив с дополнительными параметрами запроса
  * @return array результат запроса к БД в виде массива
  */
 function getTasks($link, int $user_id, array $options = []): array
@@ -39,12 +40,16 @@ function getTasks($link, int $user_id, array $options = []): array
     return get_db_result($link, $sql_tasks, $data);
 }
 
+/**
+ * @param $link mysqli Ресурс соединения
+ * @param array $options массив с данными по новой задаче
+ */
 function setTasks($link, array $options)
 {
     $sql_add_task = "INSERT INTO tasks (name, project_id, deadline, file_name, file_path)
         VALUES (?, ?, ?, ?, ?)";
 
-    return get_db_result($link, $sql_add_task, $options);
+    get_db_result($link, $sql_add_task, $options);
 }
 
 /**
@@ -63,6 +68,15 @@ function get_list_item_link_href(string $progect_id, int $show_completed = null)
     }
 
     return implode('&', $href);
+}
+
+function get_link_href_given_show_completed(string $href, int $show_completed = null): string
+{
+    if ($show_completed === 1) {
+        $href = $href . '?show_completed=' . $show_completed;
+    }
+
+    return $href;
 }
 
 /**
@@ -125,14 +139,14 @@ function get_project_class_name(array $project, int $project_id = null): string
 
 /**
  * Валидирует поле с названием задачи
- * @param string $task_name название задачи
+ * @param string $input_name название задачи
  * @return string | bool
  */
-function validate_task_name(string $task_name)
+function validate_input_name(string $input_name)
 {
-    if (strlen($task_name) === 0) {
+    if (strlen($input_name) === 0) {
         return 'Поле не должно быть пустым';
-    } elseif (strlen($task_name) > 255) {
+    } elseif (strlen($input_name) > 255) {
         return 'Название задачи не должно превышать 255 символов';
     }
 
@@ -178,4 +192,67 @@ function validate_date(string $date_value)
     }
 
     return false;
+}
+
+/**
+ * Валидирует поле email при регистрации
+ * @param $link mysqli Ресурс соединения
+ * @param string $email_value значение поля email
+ * @return string | bool
+ */
+function validate_registration_email($link, string $email_value)
+{
+    if (strlen($email_value) === 0) {
+        return 'Поле не должно быть пустым';
+    } elseif (strlen($email_value) > 128) {
+        return 'Название задачи не должно превышать 128 символов';
+    } elseif (!filter_var($email_value, FILTER_VALIDATE_EMAIL)) {
+        return 'Email должен быть корректным';
+    }
+
+    $sql_mail = "SELECT email FROM users WHERE email LIKE ?";
+
+    $is_registered_email = !!get_db_result($link, $sql_mail, [$email_value]);
+
+    if ($is_registered_email) {
+        return 'Этот email уже зарегистрирован';
+    }
+}
+
+/**
+ * Валидирует поле password при регистрации
+ * @param string $password_value значения поля password
+ * @return string | bool
+ */
+function validate_registration_password(string $password_value)
+{
+    if (strlen($password_value) === 0) {
+        return 'Поле не должно быть пустым';
+    } elseif (strlen($password_value) < 8) {
+        return 'Пароль не должен быть короче 8 символов';
+    }
+
+    return false;
+}
+
+/**
+ * Возвращает hash пароля
+ * @param string $password_value
+ * @return string
+ */
+function get_password_hash(string $password_value): string
+{
+    return password_hash($password_value, PASSWORD_DEFAULT);
+}
+
+/**
+ * @param $link mysqli Ресурс соединения
+ * @param array $options массив с данными нового пользователя
+ */
+function setNewUser($link, array $options)
+{
+    $sql_add_task = "INSERT INTO users (name, email, password)
+        VALUES (?, ?, ?)";
+
+    get_db_result($link, $sql_add_task, $options);
 }

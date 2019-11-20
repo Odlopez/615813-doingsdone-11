@@ -28,6 +28,7 @@ $page_content = include_template('main.php', [
 
 $layout_content = include_template('layout.php', [
     'content' => $page_content,
+    'show_complete_tasks' => $show_complete_tasks,
     'title' => 'Дела в порядке'
 ]);
 
