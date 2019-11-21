@@ -44,7 +44,7 @@ function getTasks($link, int $user_id, array $options = []): array
  * @param $link mysqli Ресурс соединения
  * @param array $options массив с данными по новой задаче
  */
-function setTasks($link, array $options)
+function setTask($link, array $options)
 {
     $sql_add_task = "INSERT INTO tasks (name, project_id, deadline, file_name, file_path)
         VALUES (?, ?, ?, ?, ?)";
@@ -142,7 +142,7 @@ function get_project_class_name(array $project, int $project_id = null): string
  * @param string $input_name название задачи
  * @return string | bool
  */
-function validate_input_name(string $input_name)
+function validate_task_name(string $input_name)
 {
     if (strlen($input_name) === 0) {
         return 'Поле не должно быть пустым';
@@ -230,6 +230,22 @@ function validate_registration_password(string $password_value)
         return 'Поле не должно быть пустым';
     } elseif (strlen($password_value) < 8) {
         return 'Пароль не должен быть короче 8 символов';
+    }
+
+    return false;
+}
+
+/**
+ * Валидирует поле с именем пользователя
+ * @param string $input_name название задачи
+ * @return string | bool
+ */
+function validate_user_name(string $input_name)
+{
+    if (strlen($input_name) === 0) {
+        return 'Поле не должно быть пустым';
+    } elseif (strlen($input_name) > 140) {
+        return 'Название задачи не должно превышать 140 символов';
     }
 
     return false;

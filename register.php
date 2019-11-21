@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $all_fields = ['email', 'password', 'name'];
     $rules = [
         'name' => function ($value) {
-            return validate_input_name($value);
+            return validate_user_name($value);
         },
         'email' => function ($value) use ($con) {
             return validate_registration_email($con, $value);

@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $all_fields = ['name', 'project', 'date'];
     $rules = [
         'name' => function ($value) {
-            return validate_input_name($value);
+            return validate_task_name($value);
         },
         'project' => function ($value) use ($projects) {
             return validate_project($projects, $value);
@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $new_file_path ?? null
         ];
 
-        setTasks($con, $task_data);
+        setTask($con, $task_data);
 
         $location = 'Location: ' . get_link_href_given_show_completed('index.php', $show_complete_tasks);
 
