@@ -217,6 +217,8 @@ function validate_registration_email($link, string $email_value)
     if ($is_registered_email) {
         return 'Этот email уже зарегистрирован';
     }
+
+    return false;
 }
 
 /**
@@ -271,4 +273,78 @@ function setNewUser($link, array $options)
         VALUES (?, ?, ?)";
 
     get_db_result($link, $sql_add_task, $options);
+}
+
+/**
+ * Валидирует поле email при авторизации
+ * @param $link mysqli Ресурс соединения
+ * @param string $email_value значение поля email
+ * @return string | array
+ */
+function validate_authorization_email($link, string $email_value)
+{
+    if (strlen($email_value) === 0) {
+        return 'Поле не должно быть пустым';
+    } elseif (strlen($email_value) > 128) {
+        return 'Название задачи не должно превышать 128 символов';
+    } elseif (!filter_var($email_value, FILTER_VALIDATE_EMAIL)) {
+        return 'Email должен быть корректным';
+    }
+
+    $sql_mail = "SELECT email FROM users WHERE email LIKE ?";
+
+    $registered_email = get_db_result($link, $sql_mail, [$email_value]);
+
+    if (!$registered_email) {
+        return 'Данный email не зарегистрирован';
+    }
+
+    return $registered_email;
+}
+
+function validate_authorization_password($link, string $password_value, string $email_value)
+{
+    if (!validate_authorization_email($link, $email_value)) {
+        return 'sdfsdf';
+    }
+
+    if (strlen($password_value) === 0) {
+        return 'Поле не должно быть пустым';
+    } elseif (strlen($password_value) < 8) {
+        return 'Пароль не должен быть короче 8 символов';
+    }
+
+    $sql_password = "SELECT password FROM users WHERE email LIKE ?";
+
+    $registered_password_date = get_db_result($link, $sql_password, [$email_value]);
+
+    if (isset($registered_password_date[0]['password']) && !password_verify($password_value, $registered_password_date[0]['password'])) {
+        return 'Пароль не соответствует введенному email';
+    }
+
+    return false;
+}
+
+function get_authorization_user_id($link, string $email_value)
+{
+    $sql_user = "SELECT id FROM users WHERE email LIKE ?";
+    $user_data = get_db_result($link, $sql_user, [$email_value]);
+
+    if (isset($user_data[0]) && isset($user_data[0]['id'])) {
+        return (int)$user_data[0]['id'];
+    }
+
+    return null;
+}
+
+function get_authorization_user_name($link, string $email_value)
+{
+    $sql_user = "SELECT name FROM users WHERE email LIKE ?";
+    $user_data = get_db_result($link, $sql_user, [$email_value]);
+
+    if (isset($user_data[0]) && isset($user_data[0]['name'])) {
+        return $user_data[0]['name'];
+    }
+
+    return null;
 }

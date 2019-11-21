@@ -3,6 +3,11 @@ require_once 'helpers.php';
 require_once 'functions.php';
 require_once 'sql-connect.php';
 
+if (isset($_SESSION['user'])) {
+    header('Location: index.php');
+    exit();
+}
+
 $errors = [];
 $new_user = [];
 
@@ -27,10 +32,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         },
     ];
 
-    foreach ($new_user as $key => $value) {
+    foreach ($all_fields as $key) {
         if (isset($rules[$key])) {
             $rule = $rules[$key];
-            $errors[$key] = $rule($value);
+            $errors[$key] = $rule($new_user[$key] ?? '');
         }
     }
 
@@ -45,9 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         setNewUser($con, $user_data);
 
-        $location = 'Location: ' . get_link_href_given_show_completed('index.php', $show_complete_tasks);
-
-        header($location);
+        header('Location: authorization.php');
     }
 }
 

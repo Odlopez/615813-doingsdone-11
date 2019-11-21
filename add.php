@@ -7,6 +7,11 @@ $projects = getAllProjects($con, $user_id);
 $new_task = [];
 $errors = [];
 
+if (!isset($_SESSION['user'])) {
+    header('Location: index.php');
+    exit();
+}
+
 if (isset($_GET['show_completed'])) {
     $show_complete_tasks = (int)$_GET['show_completed'];
 } else {
@@ -74,7 +79,7 @@ $page_content = include_template('add-template.php', [
 $layout_content = include_template('layout.php', [
     'content' => $page_content,
     'show_complete_tasks' => $show_complete_tasks,
-    'title' => 'Дела в порядке'
+    'title' => 'Дела в порядке',
 ]);
 
 print($layout_content);

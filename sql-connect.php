@@ -7,4 +7,9 @@ if ($con === false) {
 
 mysqli_set_charset($con, "utf8");
 
-$user_id = 2;
+session_start();
+
+if (isset($_SESSION['user'])) {
+    $user_id = $_SESSION['user'];
+    $user_name = $_SESSION['user_name'];
+}

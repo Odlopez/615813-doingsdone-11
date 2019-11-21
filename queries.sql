@@ -5,7 +5,7 @@ INSERT INTO projects (name, user_id)
 VALUES ('Спальные', 2), ('Едальные', 2), ('Отдыхальные', 2), ('Фантастические', 2);
 
 INSERT INTO users (name, email, password)
-VALUES ('odlopez', 'odlopez@inbox.ru', ',ekjxrfc,htdyjv'), ('kostyan', 'warrior2008@gmail.com', 'vfvfcrfpfkfzrhfcbdsq');
+VALUES ('odlopez', 'odlopez@inbox.ru', '$2y$10$3DGc4R1UuIwOjbRIyOd52.JV2ig8MvLsgMILeFlFLcqtYoohQLxBq'), ('kostyan', 'warrior2008@gmail.com', 'vfvfcrfpfkfzrhfcbdsq');
 
 INSERT INTO tasks (name, project_id, deadline, is_done, file_name, file_path)
 VALUES ('Собеседование в IT компании', 3, DATE('2019.12.01'), 0, NULL, NULL),

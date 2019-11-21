@@ -12,35 +12,18 @@
     <link rel="stylesheet" href="css/flatpickr.min.css">
 </head>
 
-<body >
+<body class="body-background">
 <h1 class="visually-hidden">Дела в порядке</h1>
 
 <div class="page-wrapper">
-    <div class="container container--with-sidebar">
+    <div class="container">
         <header class="main-header">
             <a href="/">
                 <img src="img/logo.png" width="153" height="42" alt="Логотип Дела в порядке">
             </a>
 
             <div class="main-header__side">
-                <?php if (isset($_SESSION['user'])) : ?>
-                    <a class="main-header__side-item button button--plus open-modal"
-                       href="<?= get_link_href_given_show_completed('/add.php', $show_complete_tasks) ?>">
-                        Добавить задачу</a>
-
-                    <div class="main-header__side-item user-menu">
-                        <div class="user-menu__data">
-                            <?php if (isset($_SESSION['user_name'])) :  ?>
-                                <p><?= $_SESSION['user_name'] ?></p>
-                            <?php else : ?>
-                                <p>Безымянный пользователь</p>
-                            <?php endif; ?>
-                            <a href="/exit.php">Выйти</a>
-                        </div>
-                    </div>
-                <?php else : ?>
-                    <a class="main-header__side-item button button--transparent" href="/authorization.php">Войти</a>
-                <?php endif; ?>
+                <a class="main-header__side-item button button--transparent" href="/authorization.php">Войти</a>
             </div>
         </header>
 
@@ -57,11 +40,6 @@
 
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
-
-        <?php if (isset($_SESSION['user'])) : ?>
-            <a class="main-footer__button button button--plus"
-               href="<?= get_link_href_given_show_completed('/add.php', $show_complete_tasks) ?>">Добавить задачу</a>
-        <?php endif; ?>
 
         <div class="main-footer__social social">
             <span class="visually-hidden">Мы в соцсетях:</span>
