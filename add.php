@@ -7,12 +7,18 @@ $projects = getAllProjects($con, $user_id);
 $new_task = [];
 $errors = [];
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (isset($_GET['show_completed'])) {
+    $show_complete_tasks = (int)$_GET['show_completed'];
+} else {
+    $show_complete_tasks = 0;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $new_task = $_POST;
     $all_fields = ['name', 'project', 'date'];
     $rules = [
         'name' => function ($value) {
-            return validate_task_name($value);
+            return validate_input_name($value);
         },
         'project' => function ($value) use ($projects) {
             return validate_project($projects, $value);
@@ -52,18 +58,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         setTasks($con, $task_data);
 
-        header("Location: index.php");
+        $location = 'Location: ' . get_link_href_given_show_completed('index.php', $show_complete_tasks);
+
+        header($location);
     }
 }
 
 $page_content = include_template('add-template.php', [
     'projects' => $projects,
     'new_task' => $new_task,
+    'show_complete_tasks' => $show_complete_tasks,
     'errors' => $errors
 ]);
 
 $layout_content = include_template('layout.php', [
     'content' => $page_content,
+    'show_complete_tasks' => $show_complete_tasks,
     'title' => 'Дела в порядке'
 ]);
 

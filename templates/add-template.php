@@ -18,7 +18,8 @@
 <main class="content__main">
     <h2 class="content__main-heading">Добавление задачи</h2>
 
-    <form class="form"  action="/add.php" method="post" enctype="multipart/form-data" autocomplete="off">
+    <form class="form"  action="<?= get_link_href_given_show_completed('/add.php', $show_complete_tasks) ?>"
+    method="post" enctype="multipart/form-data" autocomplete="off">
         <div class="form__row">
             <label class="form__label" for="name">Название <sup>*</sup></label>
 
